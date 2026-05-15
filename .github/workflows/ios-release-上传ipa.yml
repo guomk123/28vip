@@ -1,0 +1,99 @@
+name: Build and Distribute
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: build
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Prepare IPA file and set its name
+        id: prepare_ipa
+        run: |
+          # 首先处理分割文件，逻辑与原来类似 
+          if compgen -G "splitfile*" > /dev/null; then
+            echo "发现分割文件，正在合并和解压..."
+            # 将分割文件合并为一个临时归档文件名
+            cat splitfile* > temp_merged_archive.zip
+            
+            # 解压临时归档文件。
+            # 假设 .ipa 文件被直接解压到当前工作目录。
+            unzip temp_merged_archive.zip
+            
+            # 清理临时合并的 zip 文件
+            rm temp_merged_archive.zip
+            echo "分割文件处理完毕。"
+          else
+            echo "未找到分割文件。正在检查当前目录中是否存在 IPA 文件。"
+          fi
+
+          # 现在，在当前目录中查找 .ipa 文件。
+          # 此时应该只有一个 .ipa 文件。
+          ipa_files=(*.ipa) # 当前目录中 .ipa 文件的 Bash 数组
+
+          if [ "${#ipa_files[@]}" -eq 0 ]; then
+            echo "错误：处理后在当前目录中未找到 IPA 文件。"
+            echo "列出当前目录内容："
+            ls -la
+            exit 1
+          elif [ "${#ipa_files[@]}" -gt 1 ]; then
+            echo "错误：在当前目录中找到多个 IPA 文件。预期只有一个："
+            printf '%s\n' "${ipa_files[@]}" # 打印找到的每个 IPA 文件
+            exit 1
+          fi
+          
+          # 找到了一个 IPA 文件
+          IPA_NAME="${ipa_files[0]}" # 获取第一个（也是唯一一个）IPA 文件的名称
+          echo "确定的 IPA 文件名: $IPA_NAME"
+          
+          # 将 IPA 文件名设置为此作业后续步骤的环境变量
+          echo "IPA_FILE_NAME=$IPA_NAME" >> $GITHUB_ENV
+
+      - name: Archive IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-ipa
+          # 使用上一步设置的环境变量
+          path: ${{ env.IPA_FILE_NAME }}
+
+      - name: Upload using iTMSTransporter
+        env:
+          # IPA_FILE_NAME 来自 "Prepare IPA" 步骤中设置的 GITHUB_ENV
+          APPLE_USERNAME: alanham@landrph.top
+          APPLE_PASSWORD: gwbj-yvyg-yvgp-kihy
+          APPLE_ASC_PROVIDER: B36Q495V35
+        run: |
+          echo "当前工作目录: $(pwd)"
+          echo "上传前列出当前目录中的文件:"
+          ls -la
+          
+          echo "尝试上传 IPA: $IPA_FILE_NAME" # 此变量来自 GITHUB_ENV
+          
+          # 检查 IPA_FILE_NAME 是否已设置且文件是否存在
+          if [ -z "$IPA_FILE_NAME" ]; then
+            echo "错误: IPA_FILE_NAME 环境变量未设置。"
+            exit 1
+          fi
+          
+          if [ ! -f "$IPA_FILE_NAME" ]; then
+            echo "错误: 在当前目录中未找到 IPA 文件 '$IPA_FILE_NAME'。"
+            exit 1
+          fi
+          
+          # 如果 iTMSTransporter 工具不存在则克隆
+          # 这是一个基本检查；对于更高级的缓存，请考虑 actions/cache
+          if [ ! -d "itsm" ]; then
+            echo "正在克隆 iTMSTransporter 工具..."
+            git clone https://github.com/ZhangLi1984/itsm.git
+          else
+            echo "itsm 目录已存在。跳过克隆。"
+          fi
+          
+          # 执行 iTMSTransporter
+          # 如果 -assetFile 在工作区的根目录，则其路径应仅为文件名
+          ./itsm/bin/iTMSTransporter -assetFile "$IPA_FILE_NAME" -u "$APPLE_USERNAME" -p "$APPLE_PASSWORD" -m upload -asc_provider "$APPLE_ASC_PROVIDER"
