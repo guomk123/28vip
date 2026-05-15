@@ -1,0 +1,34 @@
+{
+  "name": "captcha_plugin_flutter",
+  "version": "0.0.2",
+  "summary": "A new Flutter project.",
+  "description": "A new Flutter project.",
+  "homepage": "http://example.com",
+  "license": {
+    "file": "../LICENSE"
+  },
+  "authors": {
+    "Your Company": "email@example.com"
+  },
+  "source": {
+    "path": "."
+  },
+  "source_files": "**/**/*.{h,m}",
+  "requires_arc": true,
+  "static_framework": true,
+  "dependencies": {
+    "Flutter": [
+
+    ],
+    "NTESVerifyCode": [
+
+    ]
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "pod_target_xcconfig": {
+    "DEFINES_MODULE": "YES",
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "i386"
+  }
+}

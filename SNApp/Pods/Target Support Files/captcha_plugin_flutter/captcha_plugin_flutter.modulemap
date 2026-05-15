@@ -1,0 +1,6 @@
+framework module captcha_plugin_flutter {
+  umbrella header "captcha_plugin_flutter-umbrella.h"
+
+  export *
+  module * { export * }
+}

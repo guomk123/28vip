@@ -1,0 +1,65 @@
+PODS:
+  - captcha_plugin_flutter (0.0.2):
+    - Flutter
+    - NTESVerifyCode
+  - Flutter (1.0.0)
+  - FlutterPluginRegistrant (0.0.1):
+    - captcha_plugin_flutter
+    - Flutter
+    - image_picker_ios
+    - shared_preferences_foundation
+    - url_launcher_ios
+    - webview_flutter_wkwebview
+  - image_picker_ios (0.0.1):
+    - Flutter
+  - NTESVerifyCode (3.7.0)
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - url_launcher_ios (0.0.1):
+    - Flutter
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - captcha_plugin_flutter (from `../skit_module/.ios/.symlinks/plugins/captcha_plugin_flutter/ios`)
+  - Flutter (from `../skit_module/.ios/Flutter`)
+  - FlutterPluginRegistrant (from `../skit_module/.ios/Flutter/FlutterPluginRegistrant`)
+  - image_picker_ios (from `../skit_module/.ios/.symlinks/plugins/image_picker_ios/ios`)
+  - shared_preferences_foundation (from `../skit_module/.ios/.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - url_launcher_ios (from `../skit_module/.ios/.symlinks/plugins/url_launcher_ios/ios`)
+  - webview_flutter_wkwebview (from `../skit_module/.ios/.symlinks/plugins/webview_flutter_wkwebview/ios`)
+
+SPEC REPOS:
+  trunk:
+    - NTESVerifyCode
+
+EXTERNAL SOURCES:
+  captcha_plugin_flutter:
+    :path: "../skit_module/.ios/.symlinks/plugins/captcha_plugin_flutter/ios"
+  Flutter:
+    :path: "../skit_module/.ios/Flutter"
+  FlutterPluginRegistrant:
+    :path: "../skit_module/.ios/Flutter/FlutterPluginRegistrant"
+  image_picker_ios:
+    :path: "../skit_module/.ios/.symlinks/plugins/image_picker_ios/ios"
+  shared_preferences_foundation:
+    :path: "../skit_module/.ios/.symlinks/plugins/shared_preferences_foundation/darwin"
+  url_launcher_ios:
+    :path: "../skit_module/.ios/.symlinks/plugins/url_launcher_ios/ios"
+  webview_flutter_wkwebview:
+    :path: "../skit_module/.ios/.symlinks/plugins/webview_flutter_wkwebview/ios"
+
+SPEC CHECKSUMS:
+  captcha_plugin_flutter: b358d8aab4f3ec06e38636212638a1cb391fc1e2
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  FlutterPluginRegistrant: 0e5c106721bffc7b206fbf6fff4cc9116196188e
+  image_picker_ios: b545a5f16c0fa88e3ecbbce3ed4de45567a8ec18
+  NTESVerifyCode: 27df2165c5542e24940888266b5f18e7f93379f8
+  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
+  url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
+  webview_flutter_wkwebview: 2a23822e9039b7b1bc52e5add778e5d89ad488d1
+
+PODFILE CHECKSUM: 34ced43d450f478155466d77b79b94427e9b2659
+
+COCOAPODS: 1.16.2

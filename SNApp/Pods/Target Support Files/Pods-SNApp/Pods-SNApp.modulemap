@@ -1,0 +1,6 @@
+framework module Pods_SNApp {
+  umbrella header "Pods-SNApp-umbrella.h"
+
+  export *
+  module * { export * }
+}
